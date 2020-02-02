@@ -31,8 +31,11 @@ jobs:
     - name: Sign package 
       run: | 
         $signToolPath = ${{ env.signTool }}
-        & ${{env.signTool}} sign /f "${{ steps.cert_file.outputs.filePath }}" /tr http://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 "${{github.workspace}}\\AppPackages\\*.msix"
-    
+        Get-ChildItem -recurse -path "${{github.workspace}}\AppPackages\" -Include *.msix | ForEach-Object {
+          $msixPath = $_.FullName
+          & ${{env.signTool}} sign /f "${{ steps.cert_file.outputs.filePath }}" /tr http://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 $msixPath
+        }
+        
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
