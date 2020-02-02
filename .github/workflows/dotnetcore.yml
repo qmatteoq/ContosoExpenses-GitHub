@@ -28,7 +28,7 @@ jobs:
     - name: Update manifest version
       run: |
         [xml]$manifest = get-content ".\ContosoExpenses.Package\Package.appxmanifest"
-        $manifest.Package.Identity.Version = "$env:NBGV_SIMPLEVERSION.0"
+        $manifest.Package.Identity.Version = "${{env.NBGV_SIMPLEVERSION}}.0"
         $manifest.save(".\ContosoExpenses.Package\Package.appxmanifest")
     
     - name: Build
