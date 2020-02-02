@@ -1,0 +1,24 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+    
+    - name: Chocolatey Action
+      uses: crazy-max/ghaction-chocolatey@v1.0.2
+      with:
+        # Arguments to pass to Chocolatey
+        args: install windows-sdk-10-version-1903-all 
+    
+    - name: Build
+      run: msbuild ContosoExpenses.sln
+    
