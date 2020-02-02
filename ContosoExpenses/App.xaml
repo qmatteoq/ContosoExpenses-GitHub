@@ -48,7 +48,7 @@
         </Style>
 
         <SolidColorBrush x:Key="SemiTransparentBackground" 
-                         Color="Blue"
+                         Color="Red"
                          Opacity=".6" />
 
     </Application.Resources>
