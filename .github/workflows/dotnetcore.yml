@@ -5,7 +5,7 @@ on: [push]
 env:
   configuration: Release
   platform: x86
-  signTool: "C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"
+  signTool: '"C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"'
 
 jobs:
   build:
