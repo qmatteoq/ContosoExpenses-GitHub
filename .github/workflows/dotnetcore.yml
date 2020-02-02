@@ -24,7 +24,7 @@ jobs:
         args: install windows-sdk-10-version-1903-all 
     
     - name: Build
-      run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=d:\a\ContosoExpenses-GitHub\ContosoExpenses-GitHub\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
+      run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
     
     
     - name: Upload artifact
