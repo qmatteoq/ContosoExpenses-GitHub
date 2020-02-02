@@ -18,21 +18,9 @@ jobs:
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
     
-    - name: Get certificate
-      id: cert_file
-      uses: timheuer/base64-to-file@master
-      with:
-        fileName: 'certfile.pfx'
-        encodedString: ${{ secrets.signingCert }}
-    
     - name: Build
       run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
-    
-    - name: Sign package 
-      run: | 
-        $signToolPath = ${{ env.signTool }}
-        & ${{env.signTool}} sign /f certfile.pfx /tr https://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 "${{github.workspace}}\\AppPackages\\*.msix"
-    
+            
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
@@ -40,4 +28,35 @@ jobs:
         name: MSIX
         # Directory containing files to upload
         path: AppPackages
-    
+        
+  deploy:
+    needs: build
+    name: Deploy Packages
+    runs-on: windows-latest
+    steps:
+      - name: Download Package artifact
+        uses: actions/download-artifact@master
+        with:
+          name: MSIX
+        
+      - name: Get certificate
+        id: cert_file
+        uses: timheuer/base64-to-file@master
+        with:
+          fileName: 'certfile.pfx'
+          encodedString: ${{ secrets.signingCert }}
+      
+      - name: Sign package 
+        run: | 
+          $signToolPath = ${{ env.signTool }}
+          Get-ChildItem -recurse -path "MSIX" -Include *.msix | ForEach-Object {
+            $msixPath = $_.FullName
+            & ${{env.signTool}} sign /f "${{ steps.cert_file.outputs.filePath }}" /tr http://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 $msixPath
+          }
+                  
+      - name: Azure Storage deploy
+        uses: lauchacarro/Azure-Storage-Action@master
+        with:
+          enabled-static-website: 'true'
+          folder: 'MSIX'
+          connection-string: ${{ secrets.azureStorageConnectionString }}
