@@ -20,5 +20,5 @@ jobs:
         args: install windows-sdk-10-version-1903-all 
     
     - name: Build
-      run: msbuild ContosoExpenses.sln /restore
+      run: msbuild ContosoExpenses.sln /p:Configuration=Release /p:Platform=x86 /restore /p:AppxBundlePlatforms=x86 /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
     
