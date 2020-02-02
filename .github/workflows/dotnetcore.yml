@@ -5,13 +5,11 @@ on: [push]
 env:
   configuration: Release
   signTool: '"C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"'
+  platform: x86
 
 jobs:
   build:
-    strategy:
-      matrix:
-        targetPlatform: [x86, x64]
-
+    
     runs-on: windows-latest
 
     steps:
@@ -34,9 +32,7 @@ jobs:
         $manifest.save(".\ContosoExpenses.Package\Package.appxmanifest")
     
     - name: Build
-      run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=$env:platform /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
-      env:
-        platform: ${{ matrix.targetPlatform }}
+      run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
             
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
