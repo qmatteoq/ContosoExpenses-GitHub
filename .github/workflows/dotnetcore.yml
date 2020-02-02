@@ -17,6 +17,17 @@ jobs:
     
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
+  
+    - name: Use Nerdbank.GitVersioning to set version variables
+      uses: aarnott/nbgv@v0.3
+      with:
+        setAllVars: true
+    
+    - name: Update manifest version
+      run: |
+        [xml]$manifest = get-content ".\ContosoExpenses.Package\Package.appxmanifest"
+        $manifest.Package.Identity.Version = "$env:NBGV_SIMPLEVERSION.0"
+        $manifest.save(".\ContosoExpenses.Package\Package.appxmanifest")
     
     - name: Build
       run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
