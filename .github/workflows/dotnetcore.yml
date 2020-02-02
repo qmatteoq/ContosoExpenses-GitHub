@@ -20,5 +20,5 @@ jobs:
         args: install windows-sdk-10-version-1903-all 
     
     - name: Build
-      run: msbuild ContosoExpenses.sln
+      run: msbuild ContosoExpenses.sln /restore
     
