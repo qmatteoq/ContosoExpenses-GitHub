@@ -28,7 +28,7 @@ jobs:
       run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
     
     - name: Sign package
-      run: '"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.18362.0\\x86\\signtool.exe" /f certfile.pfx /tr https://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 ${{github.workspace}}\\AppPackages\\*.msix'
+      run: '"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.18362.0\\x86\\signtool.exe" sign /f certfile.pfx /tr https://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 ${{github.workspace}}\\AppPackages\\*.msix'
     
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
