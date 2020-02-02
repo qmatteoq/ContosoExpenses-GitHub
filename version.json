@@ -1,5 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
+  "cloudBuild": {
+    "setAllVariables": true
+  },
   "version": "1.0.0",
   "publicReleaseRefSpec": [
     "^refs/heads/master$"
