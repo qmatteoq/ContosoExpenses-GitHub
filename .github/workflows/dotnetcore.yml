@@ -20,5 +20,14 @@ jobs:
         args: install windows-sdk-10-version-1903-all 
     
     - name: Build
-      run: msbuild ContosoExpenses.sln /p:Configuration=Release /p:Platform=x86 /restore /p:AppxBundlePlatforms=x86 /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
+      run: msbuild ContosoExpenses.sln /p:Configuration=Release /p:Platform=x86 /restore /p:AppxPackageDir=AppPackages /p:AppxBundlePlatforms=x86 /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
+    
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        # Artifact name
+        name: MSIX
+        # Directory containing files to upload
+        path: AppPackages
     
