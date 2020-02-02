@@ -37,7 +37,7 @@ jobs:
       - name: Download Package artifact
         uses: actions/download-artifact@master
         with:
-          name: package
+          name: MSIX
         
       - name: Get certificate
         id: cert_file
@@ -49,7 +49,7 @@ jobs:
       - name: Sign package 
         run: | 
           $signToolPath = ${{ env.signTool }}
-          Get-ChildItem -recurse -path "package" -Include *.msix | ForEach-Object {
+          Get-ChildItem -recurse -path "MSIX" -Include *.msix | ForEach-Object {
             $msixPath = $_.FullName
             & ${{env.signTool}} sign /f "${{ steps.cert_file.outputs.filePath }}" /tr http://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 $msixPath
           }
