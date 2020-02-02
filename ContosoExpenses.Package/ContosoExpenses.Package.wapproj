@@ -54,7 +54,7 @@
     <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppInstallerUri>https://db-msixtest.azurewebsites.net/</AppInstallerUri>
+    <AppInstallerUri>https://contosoexpensesgithub.z28.web.core.windows.net/</AppInstallerUri>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
