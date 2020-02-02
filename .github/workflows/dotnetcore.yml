@@ -17,11 +17,11 @@ jobs:
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
     
-    - name: Chocolatey Action
-      uses: crazy-max/ghaction-chocolatey@v1.0.2
-      with:
-        # Arguments to pass to Chocolatey
-        args: install windows-sdk-10-version-1903-all 
+  #  - name: Chocolatey Action
+  #    uses: crazy-max/ghaction-chocolatey@v1.0.2
+  #    with:
+  #      # Arguments to pass to Chocolatey
+  #      args: install windows-sdk-10-version-1903-all 
     
     - name: Build
       run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false
