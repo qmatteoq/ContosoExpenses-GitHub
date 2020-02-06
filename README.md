@@ -1,4 +1,6 @@
 
+![.NET Core](https://github.com/qmatteoq/ContosoExpenses-GitHub/workflows/.NET%20Core/badge.svg)
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
