@@ -60,14 +60,11 @@ jobs:
           fileName: 'certfile.pfx'
           encodedString: ${{ secrets.signingCert }}
       
+      - name: Install AzureSignTool
+        run: dotnet install --global AzureSignTool --version 2.0.17
           
-      - name: Sign package 
-        run: | 
-          $signToolPath = ${{ env.signTool }}
-          Get-ChildItem -recurse -path "MSIX" -Include *.msix | ForEach-Object {
-            $msixPath = $_.FullName
-            & ${{env.signTool}} sign /f "${{ steps.cert_file.outputs.filePath }}" /tr http://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 $msixPath
-          }
+      - name: Sign package
+        run: AzureSignTool sign -kvu https://contosoexpenses.vault.azure.net/ -kvi {{ secrets.AzureClientId }} -kvs {{ secrets.AzureClientSecret }} -kvc MyCertificate -tr http://timestamp.digicert.com -v "*.msix"
                   
       - name: Azure Storage deploy
         uses: lauchacarro/Azure-Storage-Action@master
