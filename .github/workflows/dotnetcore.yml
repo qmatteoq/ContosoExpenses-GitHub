@@ -59,14 +59,6 @@ jobs:
           fileName: 'certfile.pfx'
           encodedString: ${{ secrets.signingCert }}
       
-      - name: Sign package 
-        run: | 
-          $signToolPath = ${{ env.signTool }}
-          Get-ChildItem -recurse -path "MSIX" -Include *.msix | ForEach-Object {
-            $msixPath = $_.FullName
-            & ${{env.signTool}} sign /f "${{ steps.cert_file.outputs.filePath }}" /tr http://timestamp.digicert.com /p ${{ secrets.signingPassword}} /td sha256 /fd sha256 $msixPath
-          }
-          
           
       - name: Build And Deploy
         id: builddeploy
