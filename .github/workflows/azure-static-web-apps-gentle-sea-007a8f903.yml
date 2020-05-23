@@ -8,8 +8,8 @@ env:
   configuration: Release
   signTool: '"C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"'
   platform: x86
-  # appInstallerUri: https://gentle-sea-007a8f903.azurestaticapps.net/
-  appInstallerUri: https://contosoexpensesgithub.z28.web.core.windows.net/
+  appInstallerUri: https://gentle-sea-007a8f903.azurestaticapps.net/
+  # appInstallerUri: https://contosoexpensesgithub.z28.web.core.windows.net/
 
 jobs:
   build:
