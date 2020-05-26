@@ -9,7 +9,7 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "ContosoExpenses.Package", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{7795FA57-1068-4846-B9E8-0C1E7F3F546B}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+		.github\workflows\azure-static-web-apps-gentle-sea-007a8f903.yml = .github\workflows\azure-static-web-apps-gentle-sea-007a8f903.yml
 		version.json = version.json
 	EndProjectSection
 EndProject
