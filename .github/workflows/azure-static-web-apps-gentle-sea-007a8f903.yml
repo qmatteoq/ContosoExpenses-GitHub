@@ -36,9 +36,9 @@ jobs:
     
     - name: Build
       run: msbuild ${{env.solutionFile}} /p:Configuration=$env:configuration /p:Platform=$env:platform /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
-        env:
-          platform: x86
-          configuration: Release
+      env:
+        platform: x86
+        configuration: Release
 
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool --version 2.0.17
