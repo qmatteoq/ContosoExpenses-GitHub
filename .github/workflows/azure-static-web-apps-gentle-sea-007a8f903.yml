@@ -5,11 +5,11 @@ on:
     branches:
     - master
 env:
-  configuration: Release
+  
   signTool: '"C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"'
-  platform: x86
-  appInstallerUri: https://gentle-sea-007a8f903.azurestaticapps.net/
-  # appInstallerUri: https://contosoexpensesgithub.z28.web.core.windows.net/
+  solutionFile: ContosoExpenses.sln
+  manifestPath: .\ContosoExpenses.Package\Package.appxmanifest
+  appInstallerUri: https://contosoexpensesgithub.z28.web.core.windows.net/
 
 jobs:
   build:
@@ -30,20 +30,16 @@ jobs:
     
     - name: Update manifest version
       run: |
-        [xml]$manifest = get-content ".\ContosoExpenses.Package\Package.appxmanifest"
+        [xml]$manifest = get-content ${{env.manifestPath}}
         $manifest.Package.Identity.Version = "${{env.NBGV_CloudBuildNumber}}.0"
-        $manifest.save(".\ContosoExpenses.Package\Package.appxmanifest")
+        $manifest.save("${{env.manifestPath}}")
     
     - name: Build
-      run: msbuild ContosoExpenses.sln /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundlePlatforms=${{env.platform}} /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
+      run: msbuild ${{env.solutionFile}} /p:Configuration=$env:configuration /p:Platform=$env:platform /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
+        env:
+          platform: x86
+          configuration: Release
 
-    - name: Get certificate
-      id: cert_file
-      uses: timheuer/base64-to-file@master
-      with:
-        fileName: 'certfile.pfx'
-        encodedString: ${{ secrets.signingCert }}
-      
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool --version 2.0.17
         
@@ -54,9 +50,6 @@ jobs:
             & AzureSignTool sign -kvu https://contosoexpenses.vault.azure.net/ -kvi "${{ secrets.AzureClientId }}" -kvs "${{ secrets.AzureClientSecret }}" -kvc MyCertificate -tr http://timestamp.digicert.com -v $msixPath
             }  
 
-    - name: Copy web.config
-      run: xcopy ${{github.workspace}}\web.config ${{github.workspace}}\AppPackages
-            
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
