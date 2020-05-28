@@ -9,6 +9,7 @@ env:
   signTool: '"C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"'
   solutionFile: ContosoExpenses.sln
   projectFile: .\ContosoExpenses.Package\ContosoExpenses.Package.wapproj
+  dotNetProject: .\ContosoExpenses\ContosoExpenses.csproj
   manifestPath: .\ContosoExpenses.Package\Package.appxmanifest
   # appInstallerUri: https://contosoexpensesgithub.z28.web.core.windows.net/
   appInstallerUri: https://gentle-sea-007a8f903.azurestaticapps.net/
@@ -39,11 +40,9 @@ jobs:
         $manifest.Package.Identity.Version = "${{env.NBGV_CloudBuildNumber}}.0"
         $manifest.save("${{env.manifestPath}}")
         
-    - name: Restore the application
-      run: msbuild ${{env.solutionFile}} /t:Restore /p:Configuration=${{env.configuration}}
-      env:
-        Configuration: Release
-    
+    - name: Restore packages
+      run: dotnet restore ${{env.dotNetProject}}
+  
     - name: Build
       run: msbuild ${{env.projectFile}} /p:Configuration=${{env.configuration}} /p:AppxBundlePlatforms=${{env.platform}} /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
 
