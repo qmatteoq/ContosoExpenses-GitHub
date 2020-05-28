@@ -23,8 +23,15 @@ jobs:
       with:
         fetch-depth: 0
     
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: warrenbuckley/Setup-MSBuild@v1
+      uses: microsoft/setup-msbuild@2008f912f56e61277eefaac6d1888b750582aa16
   
     - name: Use Nerdbank.GitVersioning to set version variables
       uses: aarnott/nbgv@v0.3
@@ -36,12 +43,6 @@ jobs:
         [xml]$manifest = get-content ${{env.manifestPath}}
         $manifest.Package.Identity.Version = "${{env.NBGV_CloudBuildNumber}}.0"
         $manifest.save("${{env.manifestPath}}")
-        
-    - name: Chocolatey Action
-      uses: crazy-max/ghaction-chocolatey@v1.2.2
-      with:
-        # Arguments to pass to Chocolatey
-        args: install windows-sdk-10-version-1903-all
     
     - name: Build
       run: msbuild ${{env.solutionFile}} /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
