@@ -8,6 +8,7 @@ env:
   
   signTool: '"C:\\Program Files (x86)\\Windows Kits\\10\bin\\10.0.18362.0\\x86\\signtool.exe"'
   solutionFile: ContosoExpenses.sln
+  projectFile: .\ContosoExpenses.Package\ContosoExpenses.Package.wapproj
   manifestPath: .\ContosoExpenses.Package\Package.appxmanifest
   # appInstallerUri: https://contosoexpensesgithub.z28.web.core.windows.net/
   appInstallerUri: https://gentle-sea-007a8f903.azurestaticapps.net/
@@ -45,7 +46,7 @@ jobs:
         $manifest.save("${{env.manifestPath}}")
     
     - name: Build
-      run: msbuild ${{env.solutionFile}} /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
+      run: msbuild ${{env.projectFile}} /p:Configuration=${{env.configuration}} /p:Platform=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
 
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool --version 2.0.17
