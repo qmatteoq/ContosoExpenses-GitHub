@@ -23,12 +23,6 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
@@ -44,9 +38,14 @@ jobs:
         [xml]$manifest = get-content ${{env.manifestPath}}
         $manifest.Package.Identity.Version = "${{env.NBGV_CloudBuildNumber}}.0"
         $manifest.save("${{env.manifestPath}}")
+        
+    - name: Restore the application
+      run: msbuild ${{env.solutionFile}} /t:Restore /p:Configuration=${{env.configuration}}
+      env:
+        Configuration: Release
     
     - name: Build
-      run: msbuild ${{env.projectFile}} /p:Configuration=${{env.configuration}} /p:AppxBundlePlatforms=${{env.platform}} /restore /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
+      run: msbuild ${{env.projectFile}} /p:Configuration=${{env.configuration}} /p:AppxBundlePlatforms=${{env.platform}} /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
 
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool --version 2.0.17
