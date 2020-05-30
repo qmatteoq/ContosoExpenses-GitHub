@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using ContosoExpenses.Models;
 using ContosoExpenses.Services;
 using Microsoft.AppCenter.Analytics;
+using Windows.ApplicationModel;
 
 namespace ContosoExpenses
 {
@@ -34,12 +35,12 @@ namespace ContosoExpenses
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //DesktopBridge.Helpers helpers = new DesktopBridge.Helpers();
-            //if (helpers.IsRunningAsUwp())
-            //{
-            //    string version = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-            //    this.Title = $"Real Estate - Version {version}";
-            //}
+            DesktopBridge.Helpers helpers = new DesktopBridge.Helpers();
+            if (helpers.IsRunningAsUwp())
+            {
+                string version = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+                this.Title = $"Real Estate - Version {version}";
+            }
 
             LoadData();
         }
