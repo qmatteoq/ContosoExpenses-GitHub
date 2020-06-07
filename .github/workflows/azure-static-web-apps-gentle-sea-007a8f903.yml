@@ -46,9 +46,6 @@ jobs:
     - name: Build
       run: msbuild ${{env.projectFile}} /p:Configuration=${{env.configuration}} /p:AppxBundlePlatforms=${{env.platform}} /p:AppxPackageDir=${{github.workspace}}\AppPackages /p:AppxBundle=Never /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxPackageSigningEnabled=false /p:AppInstallerUri=${{env.appInstallerUri}}
     
-    - name: Copy web.config
-      run: xcopy ${{github.workspace}}\web.config ${{github.workspace}}\AppPackages\
-
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool --version 2.0.17
         
