@@ -37,7 +37,7 @@ jobs:
     - name: Update manifest version
       run: |
         [xml]$manifest = get-content ${{env.manifestPath}}
-        $manifest.Package.Identity.Version = "${{env.NBGV_CloudBuildNumber}}.0"
+        $manifest.Package.Identity.Version = "${{env.NBGV_SimpleVersion}}.0"
         $manifest.save("${{env.manifestPath}}")
         
     - name: Restore packages
