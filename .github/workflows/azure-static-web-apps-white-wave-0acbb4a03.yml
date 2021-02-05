@@ -64,7 +64,7 @@ jobs:
         
   staging:
     needs: build
-    environment: production
+    environment: staging
     name: Deploy to staging environment    
     runs-on: ubuntu-latest
     steps:
