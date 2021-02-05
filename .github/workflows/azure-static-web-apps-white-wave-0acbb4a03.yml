@@ -10,7 +10,7 @@ env:
   projectFile: .\ContosoExpenses.Package\ContosoExpenses.Package.wapproj
   dotNetProject: .\ContosoExpenses\ContosoExpenses.csproj
   manifestPath: .\ContosoExpenses.Package\Package.appxmanifest
-  appInstallerUri: https://gentle-sea-007a8f903.azurestaticapps.net/
+  appInstallerUri: https://white-wave-0acbb4a03.azurestaticapps.net/
   platform: x86
   configuration: Release
 
