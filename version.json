@@ -6,8 +6,9 @@
       "enabled": true
     }
   },
-  "version": "1.1",
+  "version": "1.0",
   "publicReleaseRefSpec": [
-    "^refs/heads/master$"
+    "^refs/heads/master$",
+    "^refs/heads/main$"
   ]
 }
