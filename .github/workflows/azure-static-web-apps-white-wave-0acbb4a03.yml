@@ -29,7 +29,7 @@ jobs:
         vs-version: 16.8
   
     - name: Use Nerdbank.GitVersioning to set version variables
-      uses: aarnott/nbgv@v0.3
+      uses: aarnott/nbgv@v0.4.0
       with:
         setAllVars: true
     
