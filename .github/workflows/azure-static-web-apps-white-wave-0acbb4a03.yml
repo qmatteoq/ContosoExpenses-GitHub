@@ -63,7 +63,8 @@ jobs:
         
   deploy:
     needs: build
-    name: Deploy Packages
+    environment: production
+    name: Deploy Packages    
     runs-on: ubuntu-latest
     steps:
       - name: Download Package artifact
